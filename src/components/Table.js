@@ -93,10 +93,18 @@ const Table = () => {
           // state_sales_sum = state_sales_total_array.reduce((a, b) => a + b, 0);
           // return <td>{state_sales_sum}</td>;
         }
-        sorted_state_sales_total.map((single_state_sale_per_sub_category) => {
-          return <td>{single_state_sale_per_sub_category}</td>;
-        });
-        console.log(sorted_state_sales_total);
+
+        sorted_state_sales_total.unshift(category, subCategory);
+        let subCatRow = sorted_state_sales_total.map(
+          (single_state_sale_per_sub_category) => {
+            return <td>{single_state_sale_per_sub_category}</td>;
+          }
+        );
+        function populate(subCatRow) {
+          return <tr>{subCatRow}</tr>;
+        }
+
+        console.log(populate(subCatRow));
         console.log("---end subcategory for " + subCategory + "---");
       }
       console.log("End Category Block for " + category);
@@ -121,9 +129,7 @@ const Table = () => {
           {getStates(tableData)}
         </thead>
 
-        <tbody>
-          <tr>{getTableData(tableData)}</tr>
-        </tbody>
+        <tbody>{getTableData(tableData)}</tbody>
       </table>
     </div>
   );
