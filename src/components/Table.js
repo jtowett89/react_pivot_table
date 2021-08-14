@@ -53,6 +53,7 @@ const Table = () => {
       for (const element_subCat of sorted_sub_categories_array) {
         let states_list_array = [];
         let subCategory = element_subCat;
+        let sub_cat_row_total = 0;
         console.log("---start subcategory for " + subCategory + "---");
         for (let k = 0; k < fullData.length; k++) {
           states_list_array.push(fullData[k].state);
@@ -62,6 +63,16 @@ const Table = () => {
           .sort((a, b) => {
             return a.toString().localeCompare(b);
           });
+        for (let x = 0; x < fullData.length; x++) {
+          if (
+            fullData[x].category === category &&
+            fullData[x].subCategory === subCategory
+          ) {
+            //sum
+            sub_cat_row_total =
+              sub_cat_row_total + Math.round(fullData[x].sales);
+          }
+        }
         // console.log(sorted_states_list_array); //from here
         let sorted_state_sales_total = [];
         for (const element_state of sorted_states_list_array) {
@@ -69,6 +80,7 @@ const Table = () => {
           // let state_index = sorted_states_list_array.indexOf(current_state);
           let state_sales_total_array = [];
           let state_sales_sub_cat_total = 0;
+          let sub_cat_row_total = 0;
 
           for (let n = 0; n < fullData.length; n++) {
             if (
@@ -82,7 +94,18 @@ const Table = () => {
                 state_sales_sub_cat_total + Math.round(fullData[n].sales);
             }
           }
+          // for (let x = 0; x < fullData.length; x++) {
+          //   if (
+          //     fullData[x].category === category &&
+          //     fullData[x].subCategory === subCategory
+          //   ) {
+          //     //sum
+          //     sub_cat_row_total =
+          //       sub_cat_row_total + Math.round(fullData[x].sales);
+          //   }
+          // }
           state_sales_total_array.push(state_sales_sub_cat_total);
+          // state_sales_total_array.push(sub_cat_row_total);
           sorted_state_sales_total.push(state_sales_total_array[0]);
 
           // console.log(state_sales_total_array[0]);
@@ -95,20 +118,23 @@ const Table = () => {
         }
 
         sorted_state_sales_total.unshift(category, subCategory);
+        sorted_state_sales_total.push(sub_cat_row_total);
         let subCatRow = sorted_state_sales_total.map(
           (single_state_sale_per_sub_category) => {
             return <td>{single_state_sale_per_sub_category}</td>;
           }
         );
+
         function populate(subCatRow) {
           return <tr>{subCatRow}</tr>;
         }
-
-        console.log(populate(subCatRow));
         console.log("---end subcategory for " + subCategory + "---");
+        return populate(subCatRow);
       }
+
       console.log("End Category Block for " + category);
     }
+
     // return sorted_categories;
   };
 
@@ -116,17 +142,22 @@ const Table = () => {
     <div className="container">
       <table>
         <thead>
-          <th colSpan="2" className="text-left">
-            Products
-          </th>
-          <th colSpan="50" className="text-left">
-            States
-          </th>
+          <tr>
+            <th colSpan="2" className="text-left text-upper">
+              Products
+            </th>
+            <th colSpan="51" className="text-left text-upper">
+              States
+            </th>
+          </tr>
         </thead>
         <thead>
-          <th>Category</th>
-          <th>Sub-Category</th>
-          {getStates(tableData)}
+          <tr>
+            <th>Category</th>
+            <th>Sub-Category</th>
+            {getStates(tableData)}
+            <th className="text-left text-upper">Grand Total</th>
+          </tr>
         </thead>
 
         <tbody>{getTableData(tableData)}</tbody>

@@ -44,6 +44,9 @@ td {
 .text-right {
   text-align: right;
 }
+.text-upper {
+  text-transform: uppercase;
+}
 .container {
   width: 100%;
   overflow-x: scroll;
