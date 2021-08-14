@@ -35,6 +35,7 @@ const Table = () => {
         return a.toString().localeCompare(b);
       });
     // console.log(sorted_categories_array);
+    let display_data = [];
     for (const element_cat of sorted_categories_array) {
       let sub_categories_array = [];
       let category = element_cat;
@@ -50,7 +51,7 @@ const Table = () => {
           return a.toString().localeCompare(b);
         });
       // console.log(sorted_sub_categories_array);
-      let display_data = [];
+
       for (const element_subCat of sorted_sub_categories_array) {
         let states_list_array = [];
         let subCategory = element_subCat;
@@ -111,9 +112,10 @@ const Table = () => {
         // return <tr>{subCatRow}</tr>;
         display_data.push(<tr>{subCatRow}</tr>);
       }
-      return display_data;
+
       console.log("End Category Block for " + category);
     }
+    return display_data;
 
     // return sorted_categories;
   };
