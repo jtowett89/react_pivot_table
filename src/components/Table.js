@@ -23,21 +23,24 @@ const Table = () => {
   };
 
   let getTableData = (data) => {
+    let fullData = data;
+    // console.log(fullData);
     let categories_array = [];
-    for (let i = 0; i < data.length; i++) {
-      categories_array.push(data[i].category);
+    for (let i = 0; i < fullData.length; i++) {
+      categories_array.push(fullData[i].category);
     }
     let sorted_categories_array = categories_array
       .filter((value, index, self) => self.indexOf(value) === index)
       .sort((a, b) => {
         return a.toString().localeCompare(b);
       });
-    sorted_categories_array.forEach((item, index, data) => {
+    // console.log(sorted_categories_array);
+    for (const element of sorted_categories_array) {
       let sub_categories_array = [];
-      let category = item;
-      for (let j = 0; j < data.length; j++) {
-        if (data.category === category) {
-          sub_categories_array.push(data[j].subCategory);
+      let category = element;
+      for (let j = 0; j < fullData.length; j++) {
+        if (fullData[j].category === category) {
+          sub_categories_array.push(fullData[j].subCategory);
         }
       }
       let sorted_sub_categories_array = sub_categories_array
@@ -45,44 +48,41 @@ const Table = () => {
         .sort((a, b) => {
           return a.toString().localeCompare(b);
         });
-      sorted_sub_categories_array.forEach((item, index, data) => {
+      // console.log(sorted_sub_categories_array);
+      for (const element of sorted_sub_categories_array) {
         let states_list_array = [];
-        let subCategory = item;
-        for (let k = 0; k < data.length; k++) {
-          states_list_array.push(data[k].state);
+        let subCategory = element;
+        for (let k = 0; k < fullData.length; k++) {
+          states_list_array.push(fullData[k].state);
         }
         let sorted_states_list_array = states_list_array
           .filter((value, index, self) => self.indexOf(value) === index)
           .sort((a, b) => {
             return a.toString().localeCompare(b);
           });
-        sorted_states_list_array.forEach((item, index, data) => {
-          let current_state = item;
-          let row_sales_array = [];
-          for (let n = 0; n < data.length; n++) {
-            if (
-              data.category === category &&
-              data.subCategory === subCategory &&
-              data.state === current_state
-            ) {
-            }
-          }
-        });
-      });
-    });
-    // return sorted_categories;
-  };
+        for (const element of sorted_states_list_array) {
+          let current_state = element;
+          let state_sales_total_array = [];
 
-  let getSubCategories = (data) => {
-    let sub_categories_array = [];
-    for (let i = 0; i < data.length; i++) {
-      sub_categories_array.push(data[i].subCategory);
+          for (let n = 0; n < fullData.length; n++) {
+            if (
+              fullData[n].category === category &&
+              fullData[n].subCategory === subCategory &&
+              fullData[n].state === current_state
+            ) {
+              state_sales_total_array.push(fullData[n].sales);
+            }
+            // console.log(state_sales_total_array[0]);
+            // let state_sales_sum = state_sales_total_array.reduce(
+            //   (a, b) => a + b,
+            //   0
+            // );
+            // return <td>{state_sales_sum}</td>;
+          }
+        }
+      }
     }
-    return sub_categories_array
-      .filter((value, index, self) => self.indexOf(value) === index)
-      .sort((a, b) => {
-        return a.toString().localeCompare(b);
-      });
+    // return sorted_categories;
   };
 
   return (
@@ -103,32 +103,7 @@ const Table = () => {
         </thead>
 
         <tbody>
-          {tableData
-            .map((sale2) => sale2.category)
-            .filter((value, index, self) => self.indexOf(value) === index)
-            .sort((a, b) => {
-              return a.localeCompare(b);
-            })
-            .map((category1) => {
-              return (
-                <>
-                  <tr>
-                    <td>{category1}</td>
-                    {getSubCategories(tableData).map((subCat) => {
-                      return (
-                        <>
-                          <td>{subCat}</td>
-                          {}
-                        </>
-                      );
-                    })}
-                  </tr>
-                  <tr>
-                    <td className="grey">{category1} totals</td>
-                  </tr>
-                </>
-              );
-            })}
+          <tr>{getTableData(tableData)}</tr>
         </tbody>
       </table>
     </div>
