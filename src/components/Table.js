@@ -50,6 +50,7 @@ const Table = () => {
           return a.toString().localeCompare(b);
         });
       // console.log(sorted_sub_categories_array);
+      let display_data = [];
       for (const element_subCat of sorted_sub_categories_array) {
         let states_list_array = [];
         let subCategory = element_subCat;
@@ -80,7 +81,6 @@ const Table = () => {
           // let state_index = sorted_states_list_array.indexOf(current_state);
           let state_sales_total_array = [];
           let state_sales_sub_cat_total = 0;
-          let sub_cat_row_total = 0;
 
           for (let n = 0; n < fullData.length; n++) {
             if (
@@ -94,27 +94,9 @@ const Table = () => {
                 state_sales_sub_cat_total + Math.round(fullData[n].sales);
             }
           }
-          // for (let x = 0; x < fullData.length; x++) {
-          //   if (
-          //     fullData[x].category === category &&
-          //     fullData[x].subCategory === subCategory
-          //   ) {
-          //     //sum
-          //     sub_cat_row_total =
-          //       sub_cat_row_total + Math.round(fullData[x].sales);
-          //   }
-          // }
-          state_sales_total_array.push(state_sales_sub_cat_total);
-          // state_sales_total_array.push(sub_cat_row_total);
-          sorted_state_sales_total.push(state_sales_total_array[0]);
 
-          // console.log(state_sales_total_array[0]);
-          // for (let p = 0; p < state_sales_total_array.length; p++) {
-          //   state_sales_sum =
-          //     state_sales_total_array[p].sales + state_sales_sum;
-          // }
-          // state_sales_sum = state_sales_total_array.reduce((a, b) => a + b, 0);
-          // return <td>{state_sales_sum}</td>;
+          state_sales_total_array.push(state_sales_sub_cat_total);
+          sorted_state_sales_total.push(state_sales_total_array[0]);
         }
 
         sorted_state_sales_total.unshift(category, subCategory);
@@ -125,13 +107,11 @@ const Table = () => {
           }
         );
 
-        function populate(subCatRow) {
-          return <tr>{subCatRow}</tr>;
-        }
         console.log("---end subcategory for " + subCategory + "---");
-        return populate(subCatRow);
+        // return <tr>{subCatRow}</tr>;
+        display_data.push(<tr>{subCatRow}</tr>);
       }
-
+      return display_data;
       console.log("End Category Block for " + category);
     }
 
