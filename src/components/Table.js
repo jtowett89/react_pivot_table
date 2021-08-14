@@ -35,9 +35,10 @@ const Table = () => {
         return a.toString().localeCompare(b);
       });
     // console.log(sorted_categories_array);
-    for (const element of sorted_categories_array) {
+    for (const element_cat of sorted_categories_array) {
       let sub_categories_array = [];
-      let category = element;
+      let category = element_cat;
+      console.log("Start Category Block for " + category);
       for (let j = 0; j < fullData.length; j++) {
         if (fullData[j].category === category) {
           sub_categories_array.push(fullData[j].subCategory);
@@ -49,9 +50,9 @@ const Table = () => {
           return a.toString().localeCompare(b);
         });
       // console.log(sorted_sub_categories_array);
-      for (const element of sorted_sub_categories_array) {
+      for (const element_subCat of sorted_sub_categories_array) {
         let states_list_array = [];
-        let subCategory = element;
+        let subCategory = element_subCat;
         for (let k = 0; k < fullData.length; k++) {
           states_list_array.push(fullData[k].state);
         }
@@ -60,9 +61,11 @@ const Table = () => {
           .sort((a, b) => {
             return a.toString().localeCompare(b);
           });
+        // console.log(sorted_states_list_array); //from here
         for (const element of sorted_states_list_array) {
           let current_state = element;
           let state_sales_total_array = [];
+          let state_sales_sum = 0;
 
           for (let n = 0; n < fullData.length; n++) {
             if (
@@ -71,8 +74,9 @@ const Table = () => {
               fullData[n].state === current_state
             ) {
               state_sales_total_array.push(fullData[n].sales);
+              // console.log(state_sales_total_array[0]);
             }
-            // console.log(state_sales_total_array[0]);
+
             // let state_sales_sum = state_sales_total_array.reduce(
             //   (a, b) => a + b,
             //   0
@@ -81,6 +85,7 @@ const Table = () => {
           }
         }
       }
+      console.log("End Category Block for " + category);
     }
     // return sorted_categories;
   };
