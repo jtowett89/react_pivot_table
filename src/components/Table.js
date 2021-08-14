@@ -53,6 +53,7 @@ const Table = () => {
       for (const element_subCat of sorted_sub_categories_array) {
         let states_list_array = [];
         let subCategory = element_subCat;
+        console.log("---start subcategory for " + subCategory + "---");
         for (let k = 0; k < fullData.length; k++) {
           states_list_array.push(fullData[k].state);
         }
@@ -62,10 +63,12 @@ const Table = () => {
             return a.toString().localeCompare(b);
           });
         // console.log(sorted_states_list_array); //from here
-        for (const element of sorted_states_list_array) {
-          let current_state = element;
+        let sorted_state_sales_total = [];
+        for (const element_state of sorted_states_list_array) {
+          let current_state = element_state;
+          // let state_index = sorted_states_list_array.indexOf(current_state);
           let state_sales_total_array = [];
-          let state_sales_sum = 0;
+          let state_sales_sub_cat_total = 0;
 
           for (let n = 0; n < fullData.length; n++) {
             if (
@@ -73,17 +76,28 @@ const Table = () => {
               fullData[n].subCategory === subCategory &&
               fullData[n].state === current_state
             ) {
-              state_sales_total_array.push(fullData[n].sales);
-              // console.log(state_sales_total_array[0]);
+              // state_sales_total_array.push(fullData[n].sales);
+              //sum
+              state_sales_sub_cat_total =
+                state_sales_sub_cat_total + Math.round(fullData[n].sales);
             }
-
-            // let state_sales_sum = state_sales_total_array.reduce(
-            //   (a, b) => a + b,
-            //   0
-            // );
-            // return <td>{state_sales_sum}</td>;
           }
+          state_sales_total_array.push(state_sales_sub_cat_total);
+          sorted_state_sales_total.push(state_sales_total_array[0]);
+
+          // console.log(state_sales_total_array[0]);
+          // for (let p = 0; p < state_sales_total_array.length; p++) {
+          //   state_sales_sum =
+          //     state_sales_total_array[p].sales + state_sales_sum;
+          // }
+          // state_sales_sum = state_sales_total_array.reduce((a, b) => a + b, 0);
+          // return <td>{state_sales_sum}</td>;
         }
+        sorted_state_sales_total.map((single_state_sale_per_sub_category) => {
+          return <td>{single_state_sale_per_sub_category}</td>;
+        });
+        console.log(sorted_state_sales_total);
+        console.log("---end subcategory for " + subCategory + "---");
       }
       console.log("End Category Block for " + category);
     }
