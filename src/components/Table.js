@@ -81,7 +81,6 @@ const Table = () => {
 
         for (const element_state of sorted_states_list_array) {
           let current_state = element_state;
-          // let state_index = sorted_states_list_array.indexOf(current_state);
           let state_sales_total_array = [];
           let state_sales_sub_cat_total = 0;
           let cat_total_per_state_array = [];
@@ -202,7 +201,7 @@ const Table = () => {
 
   return (
     <div className="container">
-      <h1 className="text-center">Pinhole Press React Pivot Table</h1>
+      <h1 className="text-center">React Pivot Table</h1>
       <br />
       <table>
         <thead>
