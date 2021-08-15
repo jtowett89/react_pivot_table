@@ -8,8 +8,9 @@
   margin: 2em auto;
 }
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 13px;
   font-weight: 600;
 }
 table {
@@ -25,18 +26,35 @@ table {
   z-index: 99999;
 }
 th {
-  border: 1px solid #ccc;
+  font-weight: 700;
+  /* border: 1px solid #ccc; */
   white-space: nowrap;
   padding: 1em;
   color: #fff;
-  background-color: #0d46b9;
+  background-color: #3464c5;
+}
+th:first-child,
+th:nth-child(2) {
+  text-align: left;
 }
 td {
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   white-space: nowrap;
-  padding: 1em;
+  padding: 0.5em 1em;
   color: #a1a1a1;
   background-color: #fff;
+  text-align: right;
+}
+td:first-child,
+td:nth-child(2) {
+  text-align: left;
+  background: rgb(248, 248, 248);
+}
+td:nth-child(2) {
+}
+.cat-totals td {
+  background: rgb(224, 224, 224);
+  color: rgb(53, 53, 53);
 }
 .text-left {
   text-align: left;
@@ -46,6 +64,12 @@ td {
 }
 .text-upper {
   text-transform: uppercase;
+}
+.top-border {
+  border-top: 5px solid #000;
+}
+.top-border td {
+  color: #000;
 }
 .container {
   width: 100%;

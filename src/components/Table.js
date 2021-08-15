@@ -24,7 +24,6 @@ const Table = () => {
 
   let getTableData = (data) => {
     let fullData = data;
-    // console.log(fullData);
     let categories_array = [];
     for (let i = 0; i < fullData.length; i++) {
       categories_array.push(fullData[i].category);
@@ -34,11 +33,13 @@ const Table = () => {
       .sort((a, b) => {
         return a.toString().localeCompare(b);
       });
-    // console.log(sorted_categories_array);
     let display_data = [];
+    let number_of_states = [];
     for (const element_cat of sorted_categories_array) {
       let sub_categories_array = [];
       let category = element_cat;
+      let sorted_category_total_per_state = [];
+
       console.log("Start Category Block for " + category);
       for (let j = 0; j < fullData.length; j++) {
         if (fullData[j].category === category) {
@@ -50,12 +51,12 @@ const Table = () => {
         .sort((a, b) => {
           return a.toString().localeCompare(b);
         });
-      // console.log(sorted_sub_categories_array);
 
       for (const element_subCat of sorted_sub_categories_array) {
         let states_list_array = [];
         let subCategory = element_subCat;
         let sub_cat_row_total = 0;
+
         console.log("---start subcategory for " + subCategory + "---");
         for (let k = 0; k < fullData.length; k++) {
           states_list_array.push(fullData[k].state);
@@ -65,6 +66,7 @@ const Table = () => {
           .sort((a, b) => {
             return a.toString().localeCompare(b);
           });
+        number_of_states = sorted_states_list_array;
         for (let x = 0; x < fullData.length; x++) {
           if (
             fullData[x].category === category &&
@@ -75,13 +77,16 @@ const Table = () => {
               sub_cat_row_total + Math.round(fullData[x].sales);
           }
         }
-        // console.log(sorted_states_list_array); //from here
+
         let sorted_state_sales_total = [];
+
         for (const element_state of sorted_states_list_array) {
           let current_state = element_state;
           // let state_index = sorted_states_list_array.indexOf(current_state);
           let state_sales_total_array = [];
           let state_sales_sub_cat_total = 0;
+          let cat_total_per_state_array = [];
+          let cat_total_per_state = 0;
 
           for (let n = 0; n < fullData.length; n++) {
             if (
@@ -89,12 +94,23 @@ const Table = () => {
               fullData[n].subCategory === subCategory &&
               fullData[n].state === current_state
             ) {
-              // state_sales_total_array.push(fullData[n].sales);
-              //sum
+              //sum of sales per state in category
               state_sales_sub_cat_total =
                 state_sales_sub_cat_total + Math.round(fullData[n].sales);
             }
           }
+          for (let y = 0; y < fullData.length; y++) {
+            if (
+              fullData[y].category === category &&
+              fullData[y].state === current_state
+            ) {
+              //sum
+              cat_total_per_state =
+                cat_total_per_state + Math.round(fullData[y].sales);
+            }
+          }
+          cat_total_per_state_array.push(cat_total_per_state); /////////////
+          sorted_category_total_per_state.push(cat_total_per_state_array[0]); ////////////
 
           state_sales_total_array.push(state_sales_sub_cat_total);
           sorted_state_sales_total.push(state_sales_total_array[0]);
@@ -109,15 +125,66 @@ const Table = () => {
         );
 
         console.log("---end subcategory for " + subCategory + "---");
-        // return <tr>{subCatRow}</tr>;
         display_data.push(<tr>{subCatRow}</tr>);
       }
 
+      let catTotalRow = sorted_category_total_per_state
+        .slice(0, number_of_states.length + 1)
+        .map((cat_total_per_state) => {
+          return <td>{cat_total_per_state}</td>;
+        });
+      display_data.push(
+        <tr className="cat-totals">
+          <td>{category} Totals</td>
+          <td></td>
+          {catTotalRow}
+        </tr>
+      ); //state totals per category
       console.log("End Category Block for " + category);
     }
-    return display_data;
 
-    // return sorted_categories;
+    let final_state_array = [];
+    let final_grand_total = [];
+    for (let b = 0; b < fullData.length; b++) {
+      final_state_array.push(fullData[b].state);
+    }
+    let sorted_final_states_list_array = final_state_array
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .sort((a, b) => {
+        return a.toString().localeCompare(b);
+      });
+
+    for (const state of sorted_final_states_list_array) {
+      let new_state = state;
+      let state_grand_total = 0;
+      for (let a = 0; a < fullData.length; a++) {
+        if (fullData[a].state === new_state) {
+          state_grand_total = state_grand_total + Math.round(fullData[a].sales);
+        }
+      }
+
+      final_grand_total.push(state_grand_total);
+      console.log(final_grand_total);
+    }
+    let grand_total_sum = 0;
+
+    for (let d = 0; d < final_grand_total.length; d++) {
+      grand_total_sum = grand_total_sum + final_grand_total[d];
+    }
+
+    final_grand_total.push(grand_total_sum);
+    let grandTotalRow = final_grand_total.map((grand_total_per_state) => {
+      return <td>{grand_total_per_state}</td>;
+    });
+
+    display_data.push(
+      <tr className="top-border">
+        <td>Grand Totals</td>
+        <td></td>
+        {grandTotalRow}
+      </tr>
+    ); //
+    return display_data;
   };
 
   return (
