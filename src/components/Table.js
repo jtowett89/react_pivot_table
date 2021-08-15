@@ -17,8 +17,8 @@ const Table = () => {
       .sort((a, b) => {
         return a.toString().localeCompare(b);
       });
-    return sorted_states_array.map((state) => {
-      return <th>{state}</th>;
+    return sorted_states_array.map((state, key1) => {
+      return <th key={key1}>{state}</th>;
     });
   };
 
@@ -118,8 +118,8 @@ const Table = () => {
         sorted_state_sales_total.unshift(category, subCategory);
         sorted_state_sales_total.push(sub_cat_row_total);
         let subCatRow = sorted_state_sales_total.map(
-          (single_state_sale_per_sub_category) => {
-            return <td>{single_state_sale_per_sub_category}</td>;
+          (single_state_sale_per_sub_category, key2) => {
+            return <td key={key2}>{single_state_sale_per_sub_category}</td>;
           }
         );
 
@@ -143,8 +143,8 @@ const Table = () => {
         num = 1;
       }
 
-      let catTotalRow = grand_cat_total.map((cat_total_per_state) => {
-        return <td>{cat_total_per_state}</td>;
+      let catTotalRow = grand_cat_total.map((cat_total_per_state, key4) => {
+        return <td key={key4}>{cat_total_per_state}</td>;
       });
       display_data.push(
         <tr className="cat-totals">
@@ -185,8 +185,8 @@ const Table = () => {
     }
 
     final_grand_total.push(grand_total_sum);
-    let grandTotalRow = final_grand_total.map((grand_total_per_state) => {
-      return <td>{grand_total_per_state}</td>;
+    let grandTotalRow = final_grand_total.map((grand_total_per_state, key) => {
+      return <td key={key}>{grand_total_per_state}</td>;
     });
 
     display_data.push(
