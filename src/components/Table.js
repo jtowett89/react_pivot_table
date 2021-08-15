@@ -41,7 +41,6 @@ const Table = () => {
       let category = element_cat;
       let sorted_category_total_per_state = [];
 
-      console.log("Start Category Block for " + category);
       for (let j = 0; j < fullData.length; j++) {
         if (fullData[j].category === category) {
           sub_categories_array.push(fullData[j].subCategory);
@@ -58,7 +57,6 @@ const Table = () => {
         let subCategory = element_subCat;
         let sub_cat_row_total = 0;
 
-        console.log("---start subcategory for " + subCategory + "---");
         for (let k = 0; k < fullData.length; k++) {
           states_list_array.push(fullData[k].state);
         }
@@ -73,7 +71,7 @@ const Table = () => {
             fullData[x].category === category &&
             fullData[x].subCategory === subCategory
           ) {
-            //sum
+            //sum of category row totals
             sub_cat_row_total =
               sub_cat_row_total + Math.round(fullData[x].sales);
           }
@@ -125,16 +123,14 @@ const Table = () => {
           }
         );
 
-        console.log("---end subcategory for " + subCategory + "---");
         display_data.push(<tr>{subCatRow}</tr>);
       }
 
-      ////////////////////////
       let grand_cat_total = sorted_category_total_per_state.slice(
         0,
         number_of_states.length + 1
       );
-      if (num == 0) {
+      if (num === 0) {
         let category_grand_total = 0;
         for (let e = 0; e < grand_cat_total.length - 1; e++) {
           category_grand_total = category_grand_total + grand_cat_total[e];
@@ -146,13 +142,10 @@ const Table = () => {
         );
         num = 1;
       }
-      //////////////////////////////////////////////////////////////////////////
 
-      let catTotalRow = grand_cat_total
-        // .splice(0, number_of_states.length + 1)
-        .map((cat_total_per_state) => {
-          return <td>{cat_total_per_state}</td>;
-        });
+      let catTotalRow = grand_cat_total.map((cat_total_per_state) => {
+        return <td>{cat_total_per_state}</td>;
+      });
       display_data.push(
         <tr className="cat-totals">
           <td>{category} Totals</td>
@@ -161,7 +154,6 @@ const Table = () => {
         </tr>
       ); //state totals per category
       num = 0;
-      console.log("End Category Block for " + category); ///////////////////
     }
 
     let final_state_array = [];
@@ -185,7 +177,6 @@ const Table = () => {
       }
 
       final_grand_total.push(state_grand_total);
-      console.log(final_grand_total);
     }
     let grand_total_sum = 0;
 
@@ -204,13 +195,15 @@ const Table = () => {
         <td></td>
         {grandTotalRow}
       </tr>
-    ); //
+    );
 
     return display_data;
   };
 
   return (
     <div className="container">
+      <h1 className="text-center">Pinhole Press React Pivot Table</h1>
+      <br />
       <table>
         <thead>
           <tr>
