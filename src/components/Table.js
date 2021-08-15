@@ -190,7 +190,7 @@ const Table = () => {
 
     display_data.push(
       <tr className="top-border">
-        <td>Grand Totals</td>
+        <td>Grand Total</td>
         <td></td>
         {grandTotalRow}
       </tr>
