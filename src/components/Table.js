@@ -36,6 +36,7 @@ const Table = () => {
     let display_data = [];
     let number_of_states = [];
     for (const element_cat of sorted_categories_array) {
+      let num = 0;
       let sub_categories_array = [];
       let category = element_cat;
       let sorted_category_total_per_state = [];
@@ -104,13 +105,13 @@ const Table = () => {
               fullData[y].category === category &&
               fullData[y].state === current_state
             ) {
-              //sum
+              //sum of category totals per state
               cat_total_per_state =
                 cat_total_per_state + Math.round(fullData[y].sales);
             }
           }
-          cat_total_per_state_array.push(cat_total_per_state); /////////////
-          sorted_category_total_per_state.push(cat_total_per_state_array[0]); ////////////
+          cat_total_per_state_array.push(cat_total_per_state);
+          sorted_category_total_per_state.push(cat_total_per_state_array[0]);
 
           state_sales_total_array.push(state_sales_sub_cat_total);
           sorted_state_sales_total.push(state_sales_total_array[0]);
@@ -128,8 +129,27 @@ const Table = () => {
         display_data.push(<tr>{subCatRow}</tr>);
       }
 
-      let catTotalRow = sorted_category_total_per_state
-        .slice(0, number_of_states.length + 1)
+      ////////////////////////
+      let grand_cat_total = sorted_category_total_per_state.slice(
+        0,
+        number_of_states.length + 1
+      );
+      if (num == 0) {
+        let category_grand_total = 0;
+        for (let e = 0; e < grand_cat_total.length - 1; e++) {
+          category_grand_total = category_grand_total + grand_cat_total[e];
+        }
+        grand_cat_total.splice(
+          number_of_states.length,
+          1,
+          category_grand_total
+        );
+        num = 1;
+      }
+      //////////////////////////////////////////////////////////////////////////
+
+      let catTotalRow = grand_cat_total
+        // .splice(0, number_of_states.length + 1)
         .map((cat_total_per_state) => {
           return <td>{cat_total_per_state}</td>;
         });
@@ -140,7 +160,8 @@ const Table = () => {
           {catTotalRow}
         </tr>
       ); //state totals per category
-      console.log("End Category Block for " + category);
+      num = 0;
+      console.log("End Category Block for " + category); ///////////////////
     }
 
     let final_state_array = [];
@@ -184,6 +205,7 @@ const Table = () => {
         {grandTotalRow}
       </tr>
     ); //
+
     return display_data;
   };
 
